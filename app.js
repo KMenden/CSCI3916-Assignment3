@@ -3,8 +3,10 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 var authJwtController = require('./auth_jwt');
 var User = require('./Users');
-var Movie = require('./Movies')
+var Movie = require('./Movies');
 var jwt = require('jsonwebtoken');
+var Review = require('./Reviews');
+
 
 var app = express();
 app.use(bodyParser.json());
@@ -38,11 +40,62 @@ router.route('/users/:userId')
         });
     });
 
+router.route('/reviews')
+    .get(authJwtController.isAuthenticated, function (req, res) {
+        if(req.body.Id){
+            Review.findbyId(function (err, reviews) {
+                if (err) res.send(err);
+                // return the users
+                res.json(reviews);
+            });
+        }
+        else {
+            Review.find(function (err, reviews) {
+                if (err) res.send(err);
+                // return the users
+                res.json(reviews);
+            });
+        }
+
+    })
+    .post(authJwtController.isAuthenticated, function (req, res) {
+        Movie.find({title: req.body.movietitle},function (err, movie) {
+            if (movie.length === 0)
+            {
+                res.json({success: false, msg: 'Movie Not Found.'});
+            }
+            else
+            {
+                var parsedtoken = req.headers.authorization.split(' ')[1];
+                var decodedjwt = jwt.decode(parsedtoken, process.env.SECRET_KEY);
+                var review = new Review();
+                review.user = decodedjwt.username;
+                review.movietitle = req.body.movietitle;
+                review.reviewbody = req.body.reviewbody;
+                review.rating = req.body.rating;
+
+                review.save(function(err) {
+                    if (err) {
+                        // duplicate entry
+                        if (err.code == 11000)
+                            return res.json({ success: false, message: 'A review with that title already exists'});
+                        else
+                            return res.send(err);
+                    }
+
+                    res.json({ message: 'review created!' });
+                });
+            }
+        });
+
+    });
+
+
 router.route('/users')
     .get(authJwtController.isAuthenticated, function (req, res) {
         User.find(function (err, users) {
             if (err) res.send(err);
-            // return the users
+
             res.json(users);
         });
     });
@@ -97,11 +150,71 @@ router.post('/signin', function(req, res) {
 
 router.route('/movies')
     .get(authJwtController.isAuthenticated, function (req, res) {
-        Movie.find(function (err, movies) {
-            if (err) res.send(err);
-            // return the users
-            res.json(movies);
-        });
+        if(req.query.reviews && req.query.reviews === 'true')
+        {
+            Movie.aggregate([
+                {
+                    $lookup:
+                        {
+                            from: "reviews",
+                            localField: "title",
+                            foreignField: "movietitle",
+                            as: "reviews"
+                        }
+                }
+            ]).exec(function (err, result){
+                if (err){
+                    res.status('500').json(err);
+                }
+                if(req.headers.movietitle)
+                {
+                    var nomovie = true;
+                    for(var index in result)
+                    {
+                        var JSONobject = result[index];
+                        if(JSONobject.title === req.headers.movietitle)
+                        {
+                            nomovie = false;
+                            res.json(JSONobject);
+                        }
+                    }
+                    if(nomovie === true)
+                    {
+                        res.json({success: false, message:'Error, movie not found.'});
+                    }
+                }
+                else
+                {
+                    res.json(result);
+                }
+
+            });
+        }
+        else
+        {
+            if(req.headers.movietitle)
+            {
+                Movie.find({ title: req.headers.movietitle},function (err, movie) {
+                    if (movie.length === 0)
+                    {
+                        res.json({ success: false, message: 'Movie Not Found'});
+                    }
+                    else
+                    {
+                        res.json(movie);
+                    }
+                });
+            }
+            else
+            {
+                Movie.find(function (err, movies) {
+                    if (err) res.send(err);
+
+                    res.json(movies);
+                });
+            }
+        }
+
     })
     .post(authJwtController.isAuthenticated, function (req, res) {
         if (!req.body.title || !req.body.genre || !req.body.year || !req.body.actors && req.body.actors.length > 2) {

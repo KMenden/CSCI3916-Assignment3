@@ -1,0 +1,1947 @@
+{
+	"info": {
+		"name": "WebAPIAssignment4",
+		"_postman_id": "98cc240c-bc14-74af-2deb-befb7014fd27",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User SignUp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a87c3993-c9c1-4693-bc09-0936859959a6",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"User Was Created Successfully\"] = jsonData.message  === \"User created!\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "testuser",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "passtheword",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/signup",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User SignUp/User Already Exists",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "47ced667-77fe-466d-8431-374ea81ad8fe",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"User Already Exists, Error Caught\"] = jsonData.success  === false;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "testuser",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "passtheword",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/signup",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Signin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "67289aae-29a1-406b-a964-096de395e0e4",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Sign in Successful\"] = jsonData.success  === true;",
+							"tests[\"Token Recieved\"] = jsonData.token !== null;",
+							"pm.globals.set(\"JsonToken\",jsonData.token);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "testuser",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "passtheword",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/signin",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e2ee61de-2dff-4079-afe7-a4f4ddbf26ce",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Users Successfully Returned\"] = jsonData.username !== null;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JsonToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/users",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movies Post/Movie#1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b83e7622-81f6-4062-8d3f-558c82e764e1",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Movie 1 Created Successfully\"] = jsonData.message === \"Movie created!\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JsonToken}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "year",
+							"value": "1933",
+							"type": "text"
+						},
+						{
+							"key": "genre",
+							"value": "Drama",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "12 Angry Men",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Henry Fonda,Juror 8",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Lee J. Cobb,Juror 3",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "John Fiedler,Juror 2",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/movies",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movies Post/Movie#2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "635bf53c-7a62-4468-b6ab-28e1501f6be9",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Movie 2 Created Successfully\"] = jsonData.message === \"Movie created!\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JsonToken}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "year",
+							"value": "1982",
+							"type": "text"
+						},
+						{
+							"key": "genre",
+							"value": "Horror",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "The Thing",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Kurt Russell, MacReady",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Keith David, Childs",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Richard Masur, Clark",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "T.K. Carter, Nauls",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/movies",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movies Post/Movie#3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c4a57f84-1d29-457f-bbfe-3a704eda873d",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Movie 3 Created Successfully\"] = jsonData.message === \"Movie created!\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JsonToken}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "year",
+							"value": "1954",
+							"type": "text"
+						},
+						{
+							"key": "genre",
+							"value": "Thriller",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "Rear Window",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "James Stewart, L.B. 'Jeff' Jefferies",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Grace Kelly, Lisa Carol Fremont",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Wendell Corey, Det. Lt. Thomas J. Doyle",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/movies",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movies Post/Movie#4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "428998bb-640c-4d6a-8e04-47908f632d55",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Movie 4 Created Successfully\"] = jsonData.message === \"Movie created!\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JsonToken}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "year",
+							"value": "1985",
+							"type": "text"
+						},
+						{
+							"key": "genre",
+							"value": "Drama",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "The Breakfast Club",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Emilio Estevez, Andrew Clark",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Anthony Michael Hall, Brian Johnson",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Judd Nelson, John Bender",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Molly Ringwald, Claire Standish",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Ally Sheedy, Allison Reynolds",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/movies",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movies Post/Movie#5",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a1d3cd3c-55c4-4761-ab88-978ca8f9ebdf",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Movie 5 Created Successfully\"] = jsonData.message === \"Movie created!\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JsonToken}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "year",
+							"value": "1988",
+							"type": "text"
+						},
+						{
+							"key": "genre",
+							"value": "Action",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "Die Hard",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Bruce Willis, John McClane",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Alan Rickman, Hans Gruber",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Reginald VelJohnson, Sgt. Al Powell",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/movies",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movies Post/Movie#6",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f6c7ba7b-7b1c-4aa7-affa-5e161fd625a7",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Movie 6 Created Successfully\"] = jsonData.message === \"Movie created!\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JsonToken}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "year",
+							"value": "1986",
+							"type": "text"
+						},
+						{
+							"key": "genre",
+							"value": "Adventure",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "The Great Mouse Detective",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Vincent Price, Professor Ratigan",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Barrie Ingham, Basil of Baker Street",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Val Bettin, Dr. David Q. Dawson",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Susanne Pollatschek, Olivia Flaversham",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/movies",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movies Post/Movie Already Exists",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "43061c43-4205-47eb-9e59-c30b76183a56",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Movie Already Exists, Error Caught\"] = jsonData.success === false;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JsonToken}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "year",
+							"value": "1957",
+							"type": "text"
+						},
+						{
+							"key": "genre",
+							"value": "Drama",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "12 Angry Men",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Henry Fonda,Juror 8",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Lee J. Cobb,Juror 3",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "John Fiedler,Juror 2",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/movies",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movies Post/Not Enough Actors",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "47f0f2b7-f0d2-42b3-b478-2f8c7a9b1c6d",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Not Enough Actors, Error Caught\"] = jsonData.message === \"Please include at least three actors from the film\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JsonToken}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "year",
+							"value": "1957",
+							"type": "text"
+						},
+						{
+							"key": "genre",
+							"value": "Drama",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "12 Angry Men",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Henry Fonda,Juror 8",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Lee J. Cobb,Juror 3",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/movies",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movies Post/Missing Year",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dd8479ab-0357-430a-a221-84d6843b5405",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Missing Year, Error Caught\"] = jsonData.msg === \"Please pass movie information (title,genre,year,and three actors(actorname, charactername))\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JsonToken}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "genre",
+							"value": "Drama",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "12 Angry Men",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Henry Fonda,Juror 8",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Lee J. Cobb,Juror 3",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "John Fiedler,Juror 2",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/movies",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movies Post/Wrong Genre",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4f001386-9f68-4916-9987-69adaba33c0b",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Genre Not Allowed, Error Caught\"] = jsonData.errors.genre.message === \"`Sci-Fi` is not a valid enum value for path `genre`.\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JsonToken}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "genre",
+							"value": "Sci-Fi",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "12 Angry Men",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Henry Fonda,Juror 8",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Lee J. Cobb,Juror 3",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "John Fiedler,Juror 2",
+							"type": "text"
+						},
+						{
+							"key": "year",
+							"value": "1957",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/movies",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movies Get",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b5ceee6c-62b1-4764-b539-4fba02d613ff",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Movies Returned Successfully\"] = jsonData.title !== null;",
+							"pm.globals.set(\"MovieID1\",jsonData[0]._id);",
+							"pm.globals.set(\"MovieID2\",jsonData[1]._id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JsonToken}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/movies",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movie Get",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f960270b-51d0-43fd-85f1-7c1f517997f1",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Single Movie Returned Successfully\"] = jsonData[0].title === \"The Thing\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JsonToken}}"
+					},
+					{
+						"key": "movietitle",
+						"value": "The Thing"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/movies",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movie Get/Movie Does Not Exist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b44b1834-c3c6-4e69-8e80-d9a2092286aa",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Movie Not in Database, Error Caught\"] = jsonData.message === \"Movie Not Found\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JsonToken}}"
+					},
+					{
+						"key": "movietitle",
+						"value": "EraserHead"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/movies",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movies Delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "10a1db13-9e17-409e-b084-1d36dbfdeb23",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Movie Deleted Successfully\"] = jsonData.message === \"Movie Deleted!\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JsonToken}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "Id",
+							"value": "{{MovieID2}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/movies",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movies Put",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5847c4dd-8b5c-464a-9c10-3269634fb7ee",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Movie Updated Successfully\"] = jsonData.message === \"Movie Updated!\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JsonToken}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "year",
+							"value": "1957",
+							"type": "text"
+						},
+						{
+							"key": "genre",
+							"value": "Drama",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "12 Angry Men",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Henry Fonda,Juror 8",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Lee J. Cobb,Juror 3",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "John Fiedler,Juror 2",
+							"type": "text"
+						},
+						{
+							"key": "Id",
+							"value": "{{MovieID1}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/movies",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movies Put/Not Enough Actors",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "da3f7ad7-c97e-4c4b-a190-a06ff2abefdc",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Not Enough Actors, Error Caught\"] = jsonData.message === \"Please include at least three actors from the film\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JsonToken}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "year",
+							"value": "1957",
+							"type": "text"
+						},
+						{
+							"key": "genre",
+							"value": "Drama",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "12 Angry Men",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Henry Fonda,Juror 8",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Lee J. Cobb,Juror 3",
+							"type": "text"
+						},
+						{
+							"key": "Id",
+							"value": "{{MovieID1}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/movies",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movies Put/Missing Information",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5ae9b010-457a-4d2b-be9a-36b023120eec",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Missing Year, Error Caught\"] = jsonData.errors.year.message === \"Path `year` is required.\";",
+							"tests[\"Missing Genre, Error Caught\"] = jsonData.errors.genre.message === \"Path `genre` is required.\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JsonToken}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "title",
+							"value": "12 Angry Men",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Henry Fonda,Juror 8",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "Lee J. Cobb,Juror 3",
+							"type": "text"
+						},
+						{
+							"key": "actors",
+							"value": "John Fiedler,Juror 2",
+							"type": "text"
+						},
+						{
+							"key": "Id",
+							"value": "{{MovieID1}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/movies",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reviews Post/Movie #1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bb5ee31a-d5cb-468f-b4b9-c63333b96011",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Review Created Successfully\"] = jsonData.message === \"review created!\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JsonToken}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "movietitle",
+							"value": "12 Angry Men",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "reviewbody",
+							"value": "A Drama film focusing on the debate of 12 Jurors tasked with judging a man's innocence features grand performances and trilling dialogue and cinematography, a must see!",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "rating",
+							"value": "4",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/reviews",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reviews Post/Movie #3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bb5ee31a-d5cb-468f-b4b9-c63333b96011",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Review Created Successfully\"] = jsonData.message === \"review created!\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JsonToken}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "movietitle",
+							"value": "Rear Window",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "reviewbody",
+							"value": "Triller master Alfred Hitchcock returns with expertly crafted scenes of terror!",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "rating",
+							"value": "5",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/reviews",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reviews Post/Movie #4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bb5ee31a-d5cb-468f-b4b9-c63333b96011",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Review Created Successfully\"] = jsonData.message === \"review created!\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JsonToken}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "movietitle",
+							"value": "The Breakfast Club",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "reviewbody",
+							"value": "The Breakfast Club's star studded cast brings to life the story of five teenagers in what may be John Hughes' masterpiece.",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "rating",
+							"value": "4",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/reviews",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reviews Post/Movie #5",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bb5ee31a-d5cb-468f-b4b9-c63333b96011",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Review Created Successfully\"] = jsonData.message === \"review created!\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JsonToken}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "movietitle",
+							"value": "Die Hard",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "reviewbody",
+							"value": "Die Hard's blinded action offers little nuance and plenty of mindless death.",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "rating",
+							"value": "2",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/reviews",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reviews Post/Movie #6",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bb5ee31a-d5cb-468f-b4b9-c63333b96011",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Review Created Successfully\"] = jsonData.message === \"review created!\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JsonToken}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "movietitle",
+							"value": "The Great Mouse Detective",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "reviewbody",
+							"value": "Disney's detective-adventure endeavor offers few moments of excitement and little in the way of mystery, despite an amazing performance by the late Vincent Price",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "rating",
+							"value": "3",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/reviews",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reviews Post/Invalid Movie",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1acd5663-4cde-4032-9f28-8bd72d7d0ab5",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Invalid Movie, Error Caught\"] = jsonData.msg === \"Movie Not Found.\";"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JsonToken}}"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "movietitle",
+							"value": "EraserHead",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "reviewbody",
+							"value": "The Bizzare Magnum Opus for David Lynch makes little sense and is even less engaging.",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "rating",
+							"value": "1",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/reviews",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"reviews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movies Get/reviews=true",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a47d4f6d-3a5f-4d49-9af7-2237cbef0750",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Movies Returned with Reviews Successfully\"] = jsonData[0].title === \"12 Angry Men\" && jsonData[1].title === \"Rear Window\" && jsonData[0].reviews[0].rating === 4 && jsonData[1].reviews[0].rating === 5;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JsonToken}}"
+					},
+					{
+						"key": "movietitle",
+						"value": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "movietitle",
+							"value": "12 Angry Men",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/movies?reviews=true",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"movies"
+					],
+					"query": [
+						{
+							"key": "reviews",
+							"value": "true",
+							"equals": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Movie Get/reviews=true",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ecd930ee-c18e-418e-90a2-63d0158ef577",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Movie Returned with Reviews Successfully\"] = jsonData.title === \"The Great Mouse Detective\"  && jsonData.reviews[0].rating === 3;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{JsonToken}}"
+					},
+					{
+						"key": "movietitle",
+						"value": "The Great Mouse Detective"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "movietitle",
+							"value": "12 Angry Men",
+							"description": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://afternoon-dawn-60886.herokuapp.com/movies?reviews=true",
+					"protocol": "https",
+					"host": [
+						"afternoon-dawn-60886",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"movies"
+					],
+					"query": [
+						{
+							"key": "reviews",
+							"value": "true",
+							"equals": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
